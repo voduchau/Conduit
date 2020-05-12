@@ -1,6 +1,5 @@
 import React from 'react';
 import Header from './components/Header';
-import bg3 from './image/bg3.jpg';
 class App extends React.Component {
     render() {
         return (

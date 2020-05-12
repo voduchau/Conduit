@@ -5,7 +5,6 @@ class Newpost extends Component {
 
     componentDidMount = ()=> {
         this.props.getAllArtical();
-        console.log(this.props.history,'this props')
     }
 
     handleSubmit = (e) => {
@@ -48,7 +47,7 @@ class Newpost extends Component {
                     </div>
                    
                     <div className="field">
-                        <input type="text" onChange={this.handleTag} placeholder="Enter tags" />
+                        <input type="text" onChange={this.handleTag} placeholder="Enter tags" required />
                     </div>
                 </div>
                     <button type="submit" style={{marginTop:15}} className="ui primary button">Submit</button>
@@ -58,7 +57,6 @@ class Newpost extends Component {
     }
 }
 const mapStateToProps = (state) =>{
-    // console.log(state.showArticle,'article')
     return {
         isLogin:state.isLogin,
         title: state.title,

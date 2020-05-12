@@ -31,6 +31,19 @@ export const handleTag = (data) =>{
     }
 }
 
+export const handleDelete = (id) => {
+    return async (dispatch) => {
+        const res = await axios.delete(`/listItems/${id}`)
+        if(res.status === 200) {
+            const res2 = await axios.get('/listItems')
+            dispatch({
+                type: "DELETE",
+                payload: res2.data
+            })
+        }
+    }
+}
+
 export const User = (data) => {
     return {
         type: 'USER',
@@ -50,13 +63,36 @@ export const getAllArtical = () => {
 
 export const handleSubmit = (data) =>{
     var today = new Date();
-    console.log(today,'asd')
     return async (dispatch)=>{
         const res = await axios.post('/listItems',{...data,date:today})
-        console.log(res.data,'res')
         dispatch({
             type: "ADD",
             payload:res.data
         })
     }  
+}
+
+export const getAllTags = () => {
+    return async (dispatch) => {
+        const res = await axios.get('/listItems')
+        dispatch({
+            type: "GETTAG",
+            payload:res.data.map(item => {
+                return item.tag
+            })
+        })
+    }
+}
+
+export const deleteTag = () => {
+    return async (dispatch) => {
+        const res = await axios.get('/listItems')
+        dispatch({
+            type: "DELETETAG",
+            payload: res.data.map(item =>{
+                return item.tag
+            })
+        })
+    }
+    
 }

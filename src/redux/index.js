@@ -28,8 +28,20 @@ const CreateArticle = (state = {}, action) =>{
             return {...state,..._.mapKeys(action.payload,'id')}
         case "ADD":
             return {...state,[action.payload.id]:action.payload}
+        case "DELETE":
+            return action.payload;
         default: 
             return state
+    }
+}
+const GetTags = (state=[],action) => {
+    switch (action.type) {
+        case "GETTAG":
+                return action.payload;
+        case "DELETETAG":
+            return action.payload
+        default:
+            return state;
     }
 }
 const User = (state=[], action) =>{
@@ -44,5 +56,6 @@ export default combineReducers({
     isLogin,
     article,
     showArticle: CreateArticle,
-    User
+    User,
+    GetTags
 })

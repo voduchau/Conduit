@@ -1,73 +1,84 @@
 import React, { Component } from 'react'
-import {connect} from 'react-redux';
-import { getAllArtical } from '../redux/action'
-import logo from '../image/user.png'
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
-import bg2 from '../image/bg2.jpg'
-class Home extends Component{
-    componentDidMount = () => {
-        this.props.getAllArtical()
-        console.log(logo,'image')
+import { connect } from 'react-redux';
+import { getAllArtical, handleDelete, getAllTags, deleteTag } from '../redux/action'
+import { Link } from 'react-router-dom';
+import ModalBasicExample from '../modal/ModalBasicExample';
+class Home extends Component {
+    componentDidMount = async () => {
+        await this.props.getAllArtical()
+        this.props.getAllTags();
+    }
+    handleDelete = async (id) => {
+        await this.props.handleDelete(id)
+        this.props.deleteTag()
     }
     renderItems = () => {
         return this.props.allarticle.map(item => {
             return (
-            <>
-                {/* <div className="ui stacked segment">
-                    <div className="ui list" key={item.id}>
-                        <div className="ui tiny image">
-                            <img src={logo} alt="image-user" />
+                <div key={item.id.toString()} style={{}}>
+                    <div className="ui stacked segment" style={divStyle}>
+                        <div className="ui link items">
+                            <div className="item">
+                                <div className="ui tiny image">
+                                    <img src="https://semantic-ui.com/images/avatar/large/veronika.jpg" alt="user" />
+                                </div>
+                                <div className="content">
+                                    <div className="header">{this.props.User}</div>
+                                    <p style={{ fontSize: 10, fontStyle: 'italic' }}>{item.date}</p>
+                                    <div className="description">
+                                        <p>{item.title}</p>
+                                        <p>{item.discribe}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <Link to={{ pathname: `/post/${item.id}` }} className="item">Read more ...</Link>
                         </div>
-                        <div className="item">
-                          <div className="content">
-                            <a className="header">{this.props.User}</a>
-                            <div className="description">{item.title}</div>
-                            <div className="description">{item.discribe}</div>
-                            <div className="description">{item.date}</div>
-                          </div>
+                        <div>
+                            <ModalBasicExample handleDelete={()=>this.handleDelete(item.id)} />
                         </div>
                     </div>
-                </div> */}
-                <div className="ui stacked segment" style={divStyle}>
-                <div class="ui link items">
-                    <div class="item">
-                      <div class="ui tiny image">
-                        <img src="https://semantic-ui.com/images/avatar/large/veronika.jpg" />
-                      </div>
-                      <div class="content">
-                        <div class="header">{this.props.User}</div>
-                        <p style={{fontSize:10, fontStyle:'italic'}}>{item.date}</p>
-                        <div class="description">
-                            <p>{item.title}</p>
-                            <p>{item.discribe}</p>
-                            {/* <p>{item.date}</p> */}
-                        </div>
-                      </div>
-                    </div>
-                    <Link to="/" className="item">Read more ...</Link>
                 </div>
-                </div>
-            </>
             )
         })
     }
-    render(){
+    renderTags = () => {
+        return this.props.Tags.map(item => {
+            return (
+                <div key={item} style={{margin:5}}>
+                    <a className="ui teal tag label">{item}</a>
+                </div>
+            )
+        })
+
+    }
+    
+    render() {
         return (
-            <div>
-                {this.renderItems()}
-            </div>
+            <>
+                <div style={{display: 'flex',paddingLeft:0,flexDirection:'row'}}>
+                    <div style={{width:'70%'}}>
+                        {this.renderItems()}
+                    </div>
+                    <div className="ui stacked segment" style={{marginTop:0, height: 'auto',width:'20%',right:150, position:'fixed', backgroundColor:'#e5f3f3'}}>
+                    <a class="ui red ribbon label">All Tags</a>
+                        <div className="ui link items">
+                            {this.renderTags()}
+                        </div>
+                    </div>
+                </div>
+            </>
         )
     }
 }
 const mapStateToProps = (state) => {
-    console.log(state.User,'user')
     return {
         allarticle: Object.values(state.showArticle),
-        User: state.User
+        User: state.User,
+        Tags:[...new Set(state.GetTags)]
     }
 }
 const divStyle = {
     // backgroundImage: 'url(' + bg2 + ')',
     backgroundColor: '#e5f3f3'
 }
-export default connect(mapStateToProps, {getAllArtical})(Home);
+export default connect(mapStateToProps, { getAllArtical, handleDelete, getAllTags, deleteTag })(Home);

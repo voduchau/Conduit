@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import { isLogin, User } from '../redux/action';
 import Home from './Home';
 import Newpost from './Newpost';
-import bg from '../image/bg.jpg';
+import Postdetail from './Postdetail';
 
 class Header extends React.Component {
     componentDidMount = () => {
@@ -38,7 +38,7 @@ class Header extends React.Component {
             return (
                 <>
                 <Link to="/posts/new" className="ui inverted yellow  button"> <i className="edit outline icon"></i>New Post</Link>
-                <Link to="/setting" className="ui inverted yellow  button"><i class="icon settings"></i>Setting</Link>
+                <Link to="/setting" className="ui inverted yellow  button"><i className="icon settings"></i>Setting</Link>
                 <Link to="/profile" className="ui inverted yellow  button"><i className="user circle icon"></i>{this.GoogleApi.currentUser.get().getBasicProfile().getName()}</Link>
                 <Link to="/active" className="ui inverted yellow  button" onClick={()=>this.handleSignOut()}>Sign Out</Link>
                 </>
@@ -63,8 +63,9 @@ class Header extends React.Component {
                     </div>
                 </div>
                 <Switch>
-                    <Route path="/posts/new" component={Newpost}  history={customHistory} />
-                    <Route path="/" component={Home} />
+                    <Route exact path="/posts/new" component={Newpost}  history={customHistory} />
+                    <Route exact path="/" component={Home} />
+                    <Route exact path="/post/:id" component={Postdetail} />
                 </Switch>
             </Router>
         )
@@ -77,7 +78,6 @@ const mapStateToProps = (state) => {
 }
 const divStyle = {
     color: 'blue',
-    backgroundImage: 'url(' + bg + ')',
-    // backgroundColor: '#1e8fb9'
+    backgroundColor: '#aca03f'
   };
 export default connect(mapStateToProps, { isLogin, User })(Header);
