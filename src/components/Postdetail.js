@@ -15,29 +15,29 @@ class Postdetail extends Component {
                             <p>{item.title}</p>
                             <p>{item.tag}</p>
                         </div>
-                        <div class="comment">
-                            <a class="avatar">
+                        <div className="comment">
+                            <a className="avatar">
                               <img src={user} />
                             </a>
-                            <div class="content">
-                              <a class="author">Joe Henderson</a>
-                              <div class="metadata">
-                                <span class="date">5 days ago</span>
+                            <div className="content">
+                              <a className="author">Joe Henderson</a>
+                              <div className="metadata">
+                                <span className="date">5 days ago</span>
                               </div>
-                              <div class="text">
+                              <div className="text">
                                 Dude, this is awesome. Thanks so much
                               </div>
-                              <div class="actions">
-                                <a class="reply">Reply</a>
+                              <div className="actions">
+                                <a className="reply">Reply</a>
                               </div>
                             </div>
                         </div>
-                        <form class="ui reply form">
-                            <div class="field">
+                        <form className="ui reply form">
+                            <div className="field">
                               <textarea></textarea>
                             </div>
-                            <div class="ui blue labeled submit icon button">
-                              <i class="icon edit"></i> Add Reply
+                            <div className="ui blue labeled submit icon button">
+                              <i className="icon edit"></i> Add Reply
                             </div>
                         </form>
                     </div>

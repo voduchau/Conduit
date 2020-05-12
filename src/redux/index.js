@@ -25,10 +25,13 @@ const article = (state ={},action) =>{
 const CreateArticle = (state = {}, action) =>{
     switch (action.type) {
         case "ALL":
+            state = {}
             return {...state,..._.mapKeys(action.payload,'id')}
         case "ADD":
             return {...state,[action.payload.id]:action.payload}
         case "DELETE":
+            return action.payload;
+        case "FILTERTAG":
             return action.payload;
         default: 
             return state

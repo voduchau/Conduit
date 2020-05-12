@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import { customHistory } from "../customHistory";
 import {connect} from 'react-redux';
-import { isLogin, User } from '../redux/action';
+import { isLogin, User, getAllArtical } from '../redux/action';
 import Home from './Home';
 import Newpost from './Newpost';
 import Postdetail from './Postdetail';
@@ -46,11 +46,14 @@ class Header extends React.Component {
         }
         return <Link to="/Login" className="ui inverted yellow  button" onClick={()=>this.handleSignIn()}>Sign In</Link>
     }
+    handleHome = () => {
+        this.props.getAllArtical();
+    }
     render() {
         return (
             <Router>
                 <div style={divStyle} className="ui secondary menu segment">
-                        <Link to="/" className="ui inverted yellow  button">Home</Link>
+                        <Link to="/" className="ui inverted yellow  button" onClick={()=>this.handleHome()}>Home</Link>
                         <Link to="/active" className="ui inverted yellow  button">Active</Link>
                     <div className="right menu">
                         <div className="item">
@@ -80,4 +83,4 @@ const divStyle = {
     color: 'blue',
     backgroundColor: '#aca03f'
   };
-export default connect(mapStateToProps, { isLogin, User })(Header);
+export default connect(mapStateToProps, { isLogin, User, getAllArtical })(Header);

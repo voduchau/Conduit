@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { getAllArtical, handleDelete, getAllTags, deleteTag } from '../redux/action'
+import { getAllArtical, handleDelete, getAllTags, deleteTag, handleTags } from '../redux/action'
 import { Link } from 'react-router-dom';
 import ModalBasicExample from '../modal/ModalBasicExample';
 class Home extends Component {
@@ -41,11 +41,18 @@ class Home extends Component {
             )
         })
     }
+    handleTags = async (tag) => {
+       await this.props.getAllArtical();
+        const a = this.props.allarticle.filter(item => {
+            return item.tag == tag;
+        })
+        this.props.handleTags(a);
+    }
     renderTags = () => {
         return this.props.Tags.map(item => {
             return (
                 <div key={item} style={{margin:5}}>
-                    <a className="ui teal tag label">{item}</a>
+                    <a className="ui teal tag label" onClick={()=>this.handleTags(item)}>{item}</a>
                 </div>
             )
         })
@@ -60,7 +67,7 @@ class Home extends Component {
                         {this.renderItems()}
                     </div>
                     <div className="ui stacked segment" style={{marginTop:0, height: 'auto',width:'20%',right:150, position:'fixed', backgroundColor:'#e5f3f3'}}>
-                    <a class="ui red ribbon label">All Tags</a>
+                    <a className="ui red ribbon label">All Tags</a>
                         <div className="ui link items">
                             {this.renderTags()}
                         </div>
@@ -81,4 +88,4 @@ const divStyle = {
     // backgroundImage: 'url(' + bg2 + ')',
     backgroundColor: '#e5f3f3'
 }
-export default connect(mapStateToProps, { getAllArtical, handleDelete, getAllTags, deleteTag })(Home);
+export default connect(mapStateToProps, { getAllArtical, handleDelete, getAllTags, deleteTag, handleTags })(Home);

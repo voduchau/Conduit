@@ -94,5 +94,11 @@ export const deleteTag = () => {
             })
         })
     }
-    
+}
+export const handleTags = (data) => {
+    console.log(data,'data in handle tags')
+    return {
+        type: "FILTERTAG",
+        payload: data
+    }
 }
