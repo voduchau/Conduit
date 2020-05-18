@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getAllArtical } from '../redux/action';
-import user from '../image/user.png'
+import user from '../image/user.png';
+import {Link} from 'react-router-dom';
+import { customHistory} from '../customHistory';
 class Postdetail extends Component {
     componentDidMount = () => {
         this.props.getAllArtical();
     }
     renderItem = () => {
         return this.props.item.map(item => {
-            if (item.id == this.props.match.params.id) {
+            if (item.id.toString() === this.props.match.params.id) {
                 return (
                     <div key={item.id.toString()}>
                         <div className="ui segment" >
@@ -16,11 +18,11 @@ class Postdetail extends Component {
                             <p>{item.tag}</p>
                         </div>
                         <div className="comment">
-                            <a className="avatar">
-                              <img src={user} />
-                            </a>
+                            <Link href="/#" className="avatar">
+                              <img src={user} alt="user" />
+                            </Link>
                             <div className="content">
-                              <a className="author">Joe Henderson</a>
+                              <Link className="author">Joe Henderson</Link>
                               <div className="metadata">
                                 <span className="date">5 days ago</span>
                               </div>
@@ -28,7 +30,7 @@ class Postdetail extends Component {
                                 Dude, this is awesome. Thanks so much
                               </div>
                               <div className="actions">
-                                <a className="reply">Reply</a>
+                                <Link className="reply">Reply</Link>
                               </div>
                             </div>
                         </div>

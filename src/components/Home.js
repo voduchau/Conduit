@@ -12,6 +12,36 @@ class Home extends Component {
         await this.props.handleDelete(id)
         this.props.deleteTag()
     }
+    renderTitle = (title) =>{
+        if(this.props.Search != ''){
+            if(title.toLowerCase().includes(this.props.Search.toLowerCase())){
+                const index = title.toLowerCase().indexOf(this.props.Search.toLowerCase());
+                return (
+                    <>
+                        <div>
+                            {title.substring(0,index)}
+                            <mark>{title.substring(index,index+this.props.Search.length)}</mark>
+                            {title.substring(index+this.props.Search.length,title.length)}
+                        </div>
+                    </>
+                )
+            }
+            else {
+                return (
+                    <div>
+                        {title}
+                    </div>
+                )
+            }
+        }
+        else {
+            return (
+                <div>
+                    {title}
+                </div>
+            )
+        }
+    }
     renderItems = () => {
         return this.props.allarticle.map(item => {
             return (
@@ -26,7 +56,8 @@ class Home extends Component {
                                     <div className="header">{this.props.User}</div>
                                     <p style={{ fontSize: 10, fontStyle: 'italic' }}>{item.date}</p>
                                     <div className="description">
-                                        <p>{item.title}</p>
+                                        {/* <p>{item.title}</p> */}
+                                        {this.renderTitle(item.title)}
                                         <p>{item.discribe}</p>
                                     </div>
                                 </div>
@@ -44,7 +75,7 @@ class Home extends Component {
     handleTags = async (tag) => {
        await this.props.getAllArtical();
         const a = this.props.allarticle.filter(item => {
-            return item.tag == tag;
+            return item.tag.toString() === tag.toString();
         })
         this.props.handleTags(a);
     }
@@ -81,7 +112,8 @@ const mapStateToProps = (state) => {
     return {
         allarticle: Object.values(state.showArticle),
         User: state.User,
-        Tags:[...new Set(state.GetTags)]
+        Tags:[...new Set(state.GetTags)],
+        Search: state.SearchBar
     }
 }
 const divStyle = {

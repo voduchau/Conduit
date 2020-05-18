@@ -27,6 +27,9 @@ class Newpost extends Component {
         this.props.handleTag(e.target.value);
 
     }
+    handleRender = () => {
+        this.props.history.push('/')
+    }
     render() {
         return (
             <div style={{marginTop:40,paddingRight:300, paddingLeft:300}}>
@@ -52,6 +55,7 @@ class Newpost extends Component {
                 </div>
                     <button type="submit" style={{marginTop:15}} className="ui primary button">Submit</button>
                 </form>
+                <button onClick={()=>this.handleRender()}>rendering</button>
             </div>
         )
     }

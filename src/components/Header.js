@@ -5,8 +5,9 @@ import {connect} from 'react-redux';
 import { isLogin, User, getAllArtical } from '../redux/action';
 import Home from './Home';
 import Newpost from './Newpost';
+import SearchBar from './SearchBar';
 import Postdetail from './Postdetail';
-
+import NotFound from '../page/NotFound';
 class Header extends React.Component {
     componentDidMount = () => {
         window.gapi.load('client:auth2', ()=> {
@@ -26,8 +27,8 @@ class Header extends React.Component {
            await this.GoogleApi.signIn();
             this.props.isLogin(true)
             this.props.User(this.GoogleApi.currentUser.get().getBasicProfile());
-
         }
+        this.props.history.push('/posts/new')
     }
     handleSignOut = () => {
         this.GoogleApi.signOut();
@@ -40,37 +41,33 @@ class Header extends React.Component {
                 <Link to="/posts/new" className="ui inverted yellow  button"> <i className="edit outline icon"></i>New Post</Link>
                 <Link to="/setting" className="ui inverted yellow  button"><i className="icon settings"></i>Setting</Link>
                 <Link to="/profile" className="ui inverted yellow  button"><i className="user circle icon"></i>{this.GoogleApi.currentUser.get().getBasicProfile().getName()}</Link>
-                <Link to="/active" className="ui inverted yellow  button" onClick={()=>this.handleSignOut()}>Sign Out</Link>
+                <button className="ui inverted yellow  button" onClick={()=>this.handleSignOut()}>Sign Out</button>
                 </>
             )
         }
-        return <Link to="/Login" className="ui inverted yellow  button" onClick={()=>this.handleSignIn()}>Sign In</Link>
+        return <button className="ui inverted yellow  button" onClick={()=>this.handleSignIn()}>Sign In</button>
     }
     handleHome = () => {
         this.props.getAllArtical();
     }
     render() {
         return (
-            <Router>
+            <>
                 <div style={divStyle} className="ui secondary menu segment">
                         <Link to="/" className="ui inverted yellow  button" onClick={()=>this.handleHome()}>Home</Link>
                         <Link to="/active" className="ui inverted yellow  button">Active</Link>
                     <div className="right menu">
-                        <div className="item">
-                            <div className="ui icon input">
-                                <input type="text" placeholder="Search..." />
-                                <i className="search link icon"></i>
-                            </div>
-                        </div>
+                        <SearchBar />
                         {this.renderLogin()}
                     </div>
                 </div>
                 <Switch>
-                    <Route exact path="/posts/new" component={Newpost}  history={customHistory} />
-                    <Route exact path="/" component={Home} />
-                    <Route exact path="/post/:id" component={Postdetail} />
+                    <Route path="/posts/new" component={Newpost} />
+                    <Route path="/" exact component={Home} />
+                    <Route path="/post/:id" component={Postdetail} />
+                    <Route component={NotFound} />
                 </Switch>
-            </Router>
+            </>
         )
     }
 }

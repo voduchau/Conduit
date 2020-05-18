@@ -96,9 +96,26 @@ export const deleteTag = () => {
     }
 }
 export const handleTags = (data) => {
-    console.log(data,'data in handle tags')
     return {
         type: "FILTERTAG",
         payload: data
+    }
+}
+
+export const handleSearch = (data) => {
+    return {
+        type: "SEARCH",
+        payload: data
+    }
+}
+
+export const HandleFindPost = (data) => {
+    return async (dispatch) => {
+        const res = await axios.get('/listItems');
+        dispatch({
+            type: "FINDPOST",
+            payload: data.toLowerCase(),
+            getitem: res.data
+        })
     }
 }

@@ -1,11 +1,15 @@
 import React from 'react';
 import Header from './components/Header';
+import {BrowserRouter as Router} from 'react-router-dom';
+import {customHistory} from './customHistory';
 class App extends React.Component {
     render() {
         return (
-            <div style={divStyle}>
-            <Header />
-            </div>
+            <Router>
+                <div style={divStyle}>
+                <Header />
+                </div>
+            </Router>
         )
     }
 }

@@ -33,6 +33,11 @@ const CreateArticle = (state = {}, action) =>{
             return action.payload;
         case "FILTERTAG":
             return action.payload;
+        case "FINDPOST":
+            const item = action.getitem.filter(item =>{
+                return item.title.toLowerCase().includes(`${action.payload}`)
+            })
+            return _.mapKeys(item,'id')
         default: 
             return state
     }
@@ -55,10 +60,19 @@ const User = (state=[], action) =>{
             return state;
     }
 }
+const SearchBar = (state = "",action ) => {
+    switch(action.type){
+        case "SEARCH":
+            return action.payload;
+        default:
+            return state;
+    }
+}
 export default combineReducers({
     isLogin,
     article,
     showArticle: CreateArticle,
     User,
-    GetTags
+    GetTags,
+    SearchBar
 })
